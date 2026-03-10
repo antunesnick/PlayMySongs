@@ -1,12 +1,14 @@
-package edu.unoeste.playmysongs.Models;
+package edu.unoeste.playmysongs.Repositories;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Repository;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Repository
 public class Music {
 
     private String title;
