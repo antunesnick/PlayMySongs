@@ -9,22 +9,29 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("api")
+@CrossOrigin(origins = "http://localhost:8080")
 public class MusicController {
 
     @Autowired
     private MusicService musicService;
 
     @PostMapping("add-music")
-    public ResponseEntity<Object> addMusic(String title, String artist, String style, MultipartFile file) {
+    public ResponseEntity<Object> addMusic(
+            @RequestParam("title") String title,
+            @RequestParam("artist") String artist,
+            @RequestParam("style") String style,
+            @RequestParam("file") MultipartFile file) {
         final String UPLOAD_FOLDER = "musics" + File.separator;
-        if(title == null || artist == null || style == null || file == null)
+        if(title == null || artist == null || file == null)
             return ResponseEntity.badRequest().build();
         String archiveName = title.toLowerCase().replaceAll("\\s", "") +
                 "_" + style.toLowerCase().replaceAll("\\s", "") +
-                "_" + artist.toLowerCase().replaceAll("\\s", "");
+                "_" + artist.toLowerCase().replaceAll("\\s", "") +
+                ".mp3";
 
         File outputFile = new File(UPLOAD_FOLDER +archiveName);
         File uploadFolder = new File(UPLOAD_FOLDER);
@@ -49,8 +56,8 @@ public class MusicController {
         if(musicName.isBlank())
             return ResponseEntity.badRequest().build();
 
-        Music music = musicService.findMusic(musicName);
-        if(music != null)
+        List<Music> musics = musicService.findMusic(musicName);
+        if(musics != null)
             return ResponseEntity.ok().body(musicService.findMusic(musicName));
 
         return ResponseEntity.notFound().build();
