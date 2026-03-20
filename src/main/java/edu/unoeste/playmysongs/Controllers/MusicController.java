@@ -2,6 +2,7 @@ package edu.unoeste.playmysongs.Controllers;
 
 import edu.unoeste.playmysongs.Models.Music;
 import edu.unoeste.playmysongs.Services.MusicService;
+import edu.unoeste.playmysongs.Services.StyleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ public class MusicController {
 
     @Autowired
     private MusicService musicService;
+
+    @Autowired
+    private StyleService styleService;
 
     @PostMapping("add-music")
     public ResponseEntity<Object> addMusic(
@@ -66,7 +70,7 @@ public class MusicController {
 
     @GetMapping("get-music-styles")
     public ResponseEntity<Object> getStyles() {
-        return ResponseEntity.ok().body(musicService.getStyles());
+        return ResponseEntity.ok().body(styleService.getAllStyles());
     }
 
 
