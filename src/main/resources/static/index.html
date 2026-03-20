@@ -121,7 +121,7 @@
 <div id="section-upload" class="container active">
     <h2>Upload de Música</h2>
     <div id="upload-msg" class="message"></div>
-    <form id="form-upload">
+    <form id="form-upload" >
         <div class="form-group">
             <label>Título da Música</label>
             <input type="text" id="title" required>
@@ -132,7 +132,7 @@
         </div>
         <div class="form-group">
             <label>Estilo</label>
-            <select id="style" >
+            <select id="style" required>
                 <option value="">Carregando estilos...</option>
             </select>
         </div>
@@ -171,11 +171,10 @@
             const styles = await response.json();
             const select = document.getElementById('style');
             select.innerHTML = '<option value="">Selecione um estilo</option>';
-            // Simulando que o retorno é uma lista de Strings conforme seu MusicService
             styles.forEach(s => {
                 let opt = document.createElement('option');
-                opt.value = s;
-                opt.textContent = s;
+                opt.value = s.nome;
+                opt.textContent = s.nome;
                 select.appendChild(opt);
             });
         } catch (e) {
@@ -183,7 +182,6 @@
         }
     }
 
-    // Envio de Música
     document.getElementById('form-upload').onsubmit = async (e) => {
         e.preventDefault();
         const msgDiv = document.getElementById('upload-msg');
